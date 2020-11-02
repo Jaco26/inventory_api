@@ -2,17 +2,15 @@ from flask import Flask
 from app import extensions
 
 
-def create_app(config=None):
+def create_app():
   app = Flask(__name__)
-  
-  if config:
-    app.config.from_object(config)
+  app.config.from_object('config.Config')
 
   extensions.init_app(app)
   
   @app.route('/')
   @app.route('/<name>')
   def index(name='World'):
-    return 'Hello {}!'.format(name)
+    return f'Hello {name}'
 
   return app
