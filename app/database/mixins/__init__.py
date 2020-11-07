@@ -9,7 +9,7 @@ class SerialPrimaryKeyMixin:
 
 
 class UuidPrimaryKeyMixin:
-  id = db.Column(UUID, primary_key=True, default=uuid4)
+  id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
 
 
 class CreatedUpdatedTimestampMixin:

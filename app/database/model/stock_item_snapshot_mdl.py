@@ -4,7 +4,7 @@ from app.database.mixins import UuidPrimaryKeyMixin, CreatedUpdatedTimestampMixi
 
 class StockItemSnapshot(UuidPrimaryKeyMixin, CreatedUpdatedTimestampMixin, db.Model):
   '''Represents the state of an item at any given time'''
-  stock_item_id = db.Column(UUID, db.ForeignKey('stock_item.id'), nullable=False)
-  maintainer_id = db.Column(UUID, db.ForeignKey('maintainer.id'), nullable=False)
+  stock_item_id = db.Column(UUID(as_uuid=True), db.ForeignKey('stock_item.id'), nullable=False)
+  maintainer_id = db.Column(UUID(as_uuid=True), db.ForeignKey('maintainer.id'), nullable=False)
   unit_of_measure_id = db.Column(db.Integer, db.ForeignKey('unit_of_measure.id'), nullable=False)
   quantity = db.Column(db.Float, nullable=False, default=0.0)
