@@ -4,6 +4,10 @@ from sqlalchemy.dialects.postgresql import UUID, TIMESTAMP
 from app.database.db import db
 
 
+class SerialPrimaryKeyMixin:
+  id = db.Column(db.Integer, primary_key=True)
+
+
 class UuidPrimaryKeyMixin:
   id = db.Column(UUID, primary_key=True, default=uuid4)
 
