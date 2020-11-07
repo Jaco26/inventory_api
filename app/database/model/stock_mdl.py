@@ -9,3 +9,10 @@ class Stock(UuidPrimaryKeyMixin, CreatedUpdatedTimestampMixin, db.Model):
     lazy=True,
     backref=db.backref('stock', lazy=False)
   )
+
+  maintainers = db.relationship(
+    'Maintainer',
+    lazy=True,
+    secondary='stock_maintainer',
+    backref=db.backref('stocks', lazy=False)
+  )
