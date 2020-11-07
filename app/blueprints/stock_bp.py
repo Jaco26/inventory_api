@@ -12,7 +12,7 @@ def qs_bool(key):
   
 
 @stock_bp.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
-@stock_bp.route('/<str:stock_id>')
+@stock_bp.route('/<stock_id>')
 def get_all_stocks():
   '''Get all stocks associated with the maintainer in the JWT (not implemented)'''
   # include_items = boolean(request.args.get('include_items', False))
