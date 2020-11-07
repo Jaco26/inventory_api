@@ -6,3 +6,4 @@ class StockItem(UuidPrimaryKeyMixin, CreatedUpdatedTimestampMixin, db.Model):
   stock_id = db.Column(UUID, db.ForeignKey('stock.id'), nullable=False)
   item_id = db.Column(UUID, db.ForeignKey('item.id'), nullable=False)
   
+  snapshots = db.relationship('StockItemSnapshot', lazy=True)

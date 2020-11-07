@@ -1,63 +1,44 @@
 from app.database.model_actions import save, delete, cols_dict
-from app.database.model import (
-  Stock,
-  Maintainer,
-  StockItem,
-  stock_maintainer,
-)
+from app.database.model import Stock, Maintainer
 
+class StockDbController:
 
-def get_stock_by_maintainer_id(**kwargs):
-  maintainer = Maintainer.query.get(kwargs['maintainer_id'])
-  if kwargs['include_items']:
-    rv = []
-    for stock in maintainer.stocks:
-      rv.append({
-        **cols_dict(stock),
-        'items': stock.items.all()
-      })
+  @classmethod
+  def _package_stock(cls, stock, **kwargs):
+    rv = cols_dict(stock)
+    if kwargs['include_items']:
+      rv['items'] = stock.items.all()
+    if kwargs['include_maintainers']:
+      rv['maintainers'] = stock.maintainers.all()
     return rv
-  return [cols_dict(stock) for stock in maintainer.stocks]
 
 
-def get_stock_by_stock_id(**kwargs):
-  stock = Stock.query.get(kwargs['stock_id'])
-  rv = cols_dict(stock)
-  if kwargs['include_items']:
-    rv['items'] = stock.items.all()
-  if kwargs['include_maintainers']:
-    rv['maintainers'] = stock.maintainers.all()
-  return rv
+  @classmethod
+  def get_stocks_by_maintainer_id(cls, **kwargs):
+    maintainer = Maintainer.query.get(kwargs['maintainer_id'])
+    return [cls._package_stock(stock, **kwargs) for stock in maintainer.stocks]
 
-def update_stock(**kwargs):
-  stock = Stock.query.get(kwargs['stock_id'])
-  stock.name = kwargs.get('name', stock.name)
-  save(stock)
 
-def create_stock(**kwargs):
-  stock = Stock(**kwargs)
-  save(stock)
+  @classmethod
+  def get_stock_by_stock_id(cls, **kwargs):
+    stock = Stock.query.get(kwargs['stock_id'])
+    return cls._package_stock(stock, **kwargs)
 
-def delete_stock(**kwargs):
-  stock = Stock.query.get(kwargs['id'])
-  delete(stock)
 
-def add_stock_maintainer(**kwargs):
-  stock = Stock.query.get(kwargs['stock_id'])
-  maintainer = Maintainer.query.get(kwargs['maintainer_id'])
-  stock.maintainers.append(maintainer)
-  save(stock)
+  @classmethod
+  def create_stock(cls, **kwargs):
+    stock = Stock(name=kwargs['stock_name'])
+    save(stock)
 
-def add_stock_item(**kwargs):
-  stock_item = StockItem(**kwargs)
-  save(stock_item)
 
-def remove_stock_maintainer(**kwargs):
-  stock = Stock.query.get(kwargs['stock_id'])
-  maintainer = Maintainer.query.get(kwargs['maintainer_id'])
-  stock.maintainers.remove(maintainer)
-  save(stock)
+  @classmethod
+  def update_stock(cls, **kwargs):
+    stock = Stock.query.get(kwargs['stock_id'])
+    stock.name = kwargs.get('stock_name', stock.name)
+    save(stock)
 
-def remove_stock_item(**kwargs):
-  stock_item = StockItem.query.get(kwargs['stock_item_id'])
-  delete(stock_item)
+
+  @classmethod
+  def delete_stock(cls, **kwargs):
+    stock = Stock.query.get(kwargs['stock_id'])
+    delete(stock)
