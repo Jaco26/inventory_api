@@ -17,9 +17,9 @@ def create_app():
   extensions.init_app(app)
   blueprints.init_app(app)
   
-  # @app.route('/')
-  # @app.route('/<name>')
-  # def index(name='World'):
-  #   return f'Hello {name}'
+  @app.route('/')
+  @app.route('/<name>')
+  def index(name='World'):
+    return f'Hello {name}'
 
   return app

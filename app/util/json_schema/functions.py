@@ -25,4 +25,6 @@ def should_look_like(schema, source=None):
   '''
   if not source:
     source = request.get_json()
+  if not source:
+    source = {}
   return schema(dict(source))
