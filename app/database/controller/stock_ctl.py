@@ -7,9 +7,9 @@ class StockDbController:
   def _package_stock(cls, stock, **kwargs):
     rv = cols_dict(stock)
     if kwargs['include_items']:
-      rv['items'] = stock.items.all()
+      rv['items'] = stock.items
     if kwargs['include_maintainers']:
-      rv['maintainers'] = stock.maintainers.all()
+      rv['maintainers'] = stock.maintainers
     return rv
 
 

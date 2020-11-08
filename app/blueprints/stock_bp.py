@@ -23,10 +23,19 @@ def stock():
     abort(400)
 
   if request.method == 'GET':
-    return jsonify(args)
+    if args['stock_id']:
+      return StockDbController.get_stock_by_stock_id(stock_id=args['stock_id'])
+    elif args['maintainer_id']:
+      return StockDbController.get_stocks_by_maintainer_id(maintainer_id=args['maintainer_id'])
+    else:
+      abort(400)
 
   elif request.method == 'POST':
-    pass
+    if args['stock_name']:
+      StockDbController.create_stock(stock_name=args['stock_name'])
+      return 'Success', 201
+    else:
+      abort(400)
 
   elif request.method == 'PUT':
     pass
